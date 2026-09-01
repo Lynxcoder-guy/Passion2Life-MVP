@@ -1,0 +1,249 @@
+====================================================================
+ PASSION2LIFE - SCORING & CALENDAR MECHANICS EXPLAINED
+====================================================================
+ This file explains everything about the two new features added
+ to your Passion2Life app: the SCORING system and the CALENDAR
+ system. Read this top to bottom to understand how they work,
+ why they were built this way, and how you can customize them.
+====================================================================
+
+
+--------------------------------------------------------------------
+ PART 1: THE SCORING SYSTEM
+--------------------------------------------------------------------
+
+WHAT IS IT?
+  The scoring system turns completing tasks into a GAME. Every
+  time you check off a task, you earn POINTS. The more consistent
+  you are, the more points you earn. This is called "gamification"
+  - using game mechanics to make real-life tasks more fun.
+
+THE SCORING FORMULA:
+  TOTAL SCORE = Base Points + Streak Bonus
+
+  Base Points:
+    - You earn 10 points for EVERY task you complete.
+    - Example: Complete 5 tasks → 5 × 10 = 50 base points.
+
+  Streak Bonus:
+    - A "streak" is consecutive days where you completed at
+      least one task.
+    - You earn 5 EXTRA points for each day in your streak.
+    - Example: 3-day streak → 3 × 5 = 15 bonus points.
+
+  Total Example:
+    - 5 tasks completed = 50 base points
+    - 3-day streak = 15 bonus points
+    - TOTAL = 65 points
+
+WHERE IS THE CODE?
+  File: src/chapters/micro-chapter/scoring.jsx
+
+  Key constants you can change:
+    const POINTS_PER_TASK = 10   ← Change to 20 for double XP!
+    const BONUS_STREAK = 5       ← Change to 10 for bigger streaks!
+
+⭐ PERSISTENT BACKEND STORAGE ⭐
+  The score is now SAVED to Firebase permanently! Here's how:
+    - Every project document has a "score" field like this:
+      {
+        points: 100,                    // total accumulated points
+        completedCount: 10,             // total tasks ever completed
+        completedDates: ["2026-08-07"], // dates of completions
+        trackedTaskIds: ["task123"],    // task IDs we've counted
+      }
+    - When you COMPLETE a task, its 10 points are added to this
+      stored score and saved to Firebase.
+    - Even if you DELETE that task later, the points STAY in the
+      "score" field. Your hard-earned XP is never lost!
+    - The "trackedTaskIds" list prevents double-counting - each
+      task's points can only be earned ONCE.
+
+HOW THE STREAK WORKS (the tricky part):
+  1. Every task stores a "completedAt" timestamp when you check
+     it off. Example: "2026-08-09T14:30:00.000Z"
+  2. The scoring component collects all the DATES (not times)
+     when tasks were completed and stores them in completedDates.
+  3. It walks BACKWARDS from today, counting consecutive days
+     that appear in the completedDates list.
+  4. Edge case: If you haven't completed anything TODAY yet,
+     the streak still counts up to yesterday. This gives you
+     until midnight to keep your streak alive!
+  5. Because completedDates is stored in Firebase, streaks
+     survive task deletion!
+
+WHY "completedAt" IS IMPORTANT:
+  Before this feature, tasks only had a "completed" boolean
+  (true/false). We couldn't tell WHEN you completed them.
+  Now we store the exact timestamp, which lets us calculate
+  streaks and show your consistency over time. And because
+  these dates are saved to the backend, they persist even if
+  the task itself is deleted.
+
+THE SCORING UI SHOWS:
+  - Total points (big badge at the top)
+  - 4 quick stats: Completed, Pending, Overdue, Upcoming
+  - A progress bar showing % of tasks done
+  - A breakdown showing HOW the score was calculated
+  - A 🔥 streak indicator
+
+
+--------------------------------------------------------------------
+ PART 2: THE CALENDAR SYSTEM
+--------------------------------------------------------------------
+
+WHAT IS IT?
+  A month-view calendar that shows all your tasks on the day
+  they're due. You can navigate between months, click any day
+  to see its tasks, and see at a glance which days are busy.
+
+HOW THE CALENDAR IS BUILT:
+  A calendar is just a GRID of cells:
+
+    Sun  Mon  Tue  Wed  Thu  Fri  Sat
+     1    2    3    4    5    6    7
+     8    9   10   11   12   13   14
+     ...
+
+  To build this grid, the code needs to know:
+    1. How many days are in the month? (28, 29, 30, or 31)
+    2. What day of the week does the 1st fall on?
+
+  Then it:
+    1. Adds empty cells before day 1 (so it lines up correctly)
+    2. Adds one cell for each day of the month
+    3. Places task badges on days that have tasks
+
+WHERE IS THE CODE?
+  File: src/chapters/micro-chapter/calendar.jsx
+
+  Key functions:
+    getDaysInMonth(year, month)  → How many days in that month
+    getFirstDayOfMonth(year, month) → What weekday the 1st is
+
+  The "trick" for days in month:
+    new Date(year, month + 1, 0).getDate()
+    - "day 0" of the NEXT month = the LAST day of THIS month
+    - So asking for day 0 of next month gives us the day count!
+
+GROUPING TASKS BY DATE:
+  The calendar groups all tasks into an object keyed by date:
+
+    {
+      "2026-08-09": [task1, task2],
+      "2026-08-15": [task3],
+    }
+
+  This makes it super fast to look up "what's due on this day?"
+
+CALENDAR FEATURES:
+  - ← → buttons to navigate months
+  - "Today" button to jump back to the current month
+  - Today is highlighted with a special border
+  - Past days are dimmed (opacity 0.55)
+  - Click any day to see its tasks in the details box below
+  - Each day shows badges: blue = pending, green = completed
+
+
+--------------------------------------------------------------------
+ PART 3: HOW THE TWO SYSTEMS WORK TOGETHER
+--------------------------------------------------------------------
+
+  The Scoring and Calendar components are both "children" of the
+  PassionProject page. They receive the SAME "tasks" array as a
+  prop, but each uses it differently:
+
+  Scoring uses tasks to:
+    - Count completed vs pending
+    - Calculate points and streaks
+    - Determine overdue vs upcoming
+
+  Calendar uses tasks to:
+    - Group them by due date
+    - Show badges on the right days
+    - Display task details when a day is clicked
+
+  WHY PASS TASKS AS A PROP?
+  React components are like functions - they receive data through
+  "props" and render based on that data. By passing tasks to both
+  components, they stay independent and reusable. If you wanted
+  to show the calendar on a different page, you could just pass
+  tasks to it there too!
+
+
+--------------------------------------------------------------------
+ PART 4: THE DATA FLOW (What happens when you check a task)
+--------------------------------------------------------------------
+
+  1. User clicks the checkbox on a task
+  2. toggleTaskCompletion() runs in passionproject.jsx
+  3. It flips "completed" from false → true
+  4. It records "completedAt" = current timestamp
+  5. It updates local state (UI updates instantly)
+  6. It saves to Firebase (persists across reloads)
+  7. React re-renders the page
+  8. Scoring component re-calculates: +10 points, streak updated
+  9. Calendar component re-renders: badge moves from blue to green
+
+
+--------------------------------------------------------------------
+ PART 5: HOW TO CUSTOMIZE
+--------------------------------------------------------------------
+
+  CHANGE THE POINTS:
+    Open scoring.jsx and change:
+      const POINTS_PER_TASK = 10   →  const POINTS_PER_TASK = 20
+      const BONUS_STREAK = 5       →  const BONUS_STREAK = 10
+
+  CHANGE THE COLORS:
+    Open App.css and look for the "scoring & calendar" section.
+    Change the CSS variables or add new colors.
+
+  ADD A NEW STAT:
+    In scoring.jsx, add a new calculation and a new
+    <div className="scoring-stat"> block.
+
+  SHOW MORE TASK INFO IN CALENDAR:
+    In calendar.jsx, the details box currently shows task titles.
+    You could add task notes, due times, or category badges.
+
+
+--------------------------------------------------------------------
+ PART 6: KEY REACT CONCEPTS USED
+--------------------------------------------------------------------
+
+  1. COMPONENTS - Reusable UI pieces (Scoring, Calendar)
+  2. PROPS - Data passed INTO a component ({ tasks = [] })
+  3. STATE - Data that changes over time (useState)
+  4. EFFECTS - Side effects like timers (useEffect)
+  5. LAZY INITIALIZERS - useState(() => new Date()) runs once
+  6. ARRAY METHODS - .filter(), .map(), .forEach()
+  7. TERNARY OPERATORS - condition ? valueIfTrue : valueIfFalse
+  8. TEMPLATE LITERALS - `Hello ${name}` for dynamic strings
+  9. SPREAD OPERATOR - ...task copies all properties
+  10. SET - A collection that removes duplicates automatically
+
+
+--------------------------------------------------------------------
+ PART 7: FILES CREATED OR MODIFIED
+--------------------------------------------------------------------
+
+  NEW FILES:
+    src/chapters/micro-chapter/scoring.jsx   ← Scoring component
+    src/chapters/micro-chapter/calendar.jsx  ← Calendar component
+
+  MODIFIED FILES:
+    src/chapters/micro-chapter/passionproject.jsx
+      - Added imports for Scoring and Calendar
+      - Added "completedAt" tracking when tasks are completed
+      - Added the metrics-grid section with both components
+      - Passes "projectId" to Scoring for backend persistence
+
+    src/App.css
+      - Added all the styling for scoring and calendar panels
+      - Added responsive rules for mobile
+
+
+====================================================================
+ HAPPY CODING! 🚀
+====================================================================

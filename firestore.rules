@@ -1,0 +1,36 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ------------------------------------------------------------
+    // PROJECTS COLLECTION
+    // Any signed-in user can create, read, update, and delete projects.
+    // This is the collection used by: newproject.jsx, home.jsx,
+    // passionproject.jsx, newtaskform.jsx, scoring.jsx
+    // ------------------------------------------------------------
+    match /projects/{projectId} {
+      allow read, write: if request.auth != null;
+
+      // Notes subcollection (projects/{id}/notes)
+      match /notes/{noteId} {
+        allow read, write: if request.auth != null;
+      }
+    }
+
+    // ------------------------------------------------------------
+    // DEVICES COLLECTION
+    // Used by login.jsx to track which browser/device belongs to a user.
+    // ------------------------------------------------------------
+    match /devices/{deviceId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // ------------------------------------------------------------
+    // USER DEVICES COLLECTION
+    // Used by login.jsx to link a user to their device(s).
+    // ------------------------------------------------------------
+    match /userDevices/{uid} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
