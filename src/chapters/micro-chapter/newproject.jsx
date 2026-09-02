@@ -19,8 +19,8 @@ const CATEGORY_OPTIONS = [
   'Community',
 ]
 
-// NewProject receives "onBack" (a function to return to Home).
-export default function NewProject({ onBack }) {
+// NewProject receives "onBack" (a function to return to Home) and "user" (the logged-in user).
+export default function NewProject({ onBack, user }) {
   // One piece of state for each box on the form.
   // Keeping them separate is simpler to read than one big object.
   const [title, setTitle] = useState('')
@@ -49,6 +49,10 @@ export default function NewProject({ onBack }) {
     // Add the new project to Firebase.
     try {
       await addDoc(collection(db, 'projects'), {
+        // uid = the owner of this project (the logged-in user's uid).
+        // home.jsx and firestore.rules use this field to only grant access
+        // to the user who created the project.
+        uid: user && user.uid ? user.uid : null,
         title: title.trim(),
         category: category.trim(),
         description: description.trim(),

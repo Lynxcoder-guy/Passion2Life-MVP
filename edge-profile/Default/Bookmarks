@@ -1,0 +1,139 @@
+{
+   "checksum": "84f0cc096f11e48b779d04e88319e7bf",
+   "roots": {
+      "bookmark_bar": {
+         "children": [  ],
+         "date_added": "13432798639912172",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Favorites bar",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "other": {
+         "children": [ {
+            "date_added": "13369460467880525",
+            "date_last_used": "0",
+            "guid": "9b6ae80a-26b6-4f38-a000-dc17004b73fd",
+            "id": "7",
+            "name": "New Tab",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "chrome://newtab/",
+            "visit_count": 0
+         }, {
+            "date_added": "13369461613940494",
+            "date_last_used": "0",
+            "guid": "f828e05c-df88-4dcb-94cf-52033babb33e",
+            "id": "8",
+            "name": "Simulasi AKM",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://pusmendik.kemdikbud.go.id/an/simulasi_akm/proses_tes?ses_id=2f6c5bae3b31d06c9da50742aa7d1a32e68a6eca",
+            "visit_count": 0
+         }, {
+            "date_added": "13371310024098892",
+            "date_last_used": "0",
+            "guid": "cf30745e-3beb-4b15-8848-f93ae5f4c280",
+            "id": "9",
+            "name": "Stickman Battle Fight Warriors 🕹️ Play on CrazyGames",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.crazygames.com/game/stickman-supreme-duelist-2",
+            "visit_count": 0
+         }, {
+            "date_added": "13413777662337905",
+            "date_last_used": "0",
+            "guid": "c81d7c77-7139-48e9-af05-1993b5811930",
+            "id": "10",
+            "name": "MSYS2",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.msys2.org/",
+            "visit_count": 0
+         }, {
+            "date_added": "13415105693107911",
+            "date_last_used": "0",
+            "guid": "d6f9d19e-1d33-45a8-8252-8afc0a79081d",
+            "id": "11",
+            "name": "Jual jastip mlaisya Harga Terbaik & Termurah Februari 2026 | Shopee Indonesia",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://shopee.co.id/search?keyword=jastip%20mlaisya",
+            "visit_count": 0
+         }, {
+            "date_added": "13415107097214712",
+            "date_last_used": "0",
+            "guid": "44a2e486-a36a-460d-a02b-6019e380095a",
+            "id": "12",
+            "name": "   ",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://shopee.co.id/m/SPayLater-Beli-Sekarang-Bayar-Nanti?gad_source=1&gad_campaignid=22555226093&gbraid=0AAAAA_gZaxbI1rJIq5mYPS2SE1JS2KmYD&gclid=CjwKCAiAqKbMBhBmEiwAZ3UboO5lfy32o78cjc5QebjCAjrbwul9dI1dBuKZviT9m3bkmWYgGIB6QBoC8xYQAvD_BwE",
+            "visit_count": 0
+         }, {
+            "date_added": "13416113404080334",
+            "date_last_used": "0",
+            "guid": "4d9c15e2-336b-4a66-80dc-0226e2d9bec4",
+            "id": "13",
+            "name": "Meet - hga-wwuh-akd",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://meet.google.com/hga-wwuh-akd",
+            "visit_count": 0
+         } ],
+         "date_added": "13432798639912172",
+         "date_last_used": "0",
+         "date_modified": "13416113404080334",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other favorites",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [ {
+            "date_added": "13374378610477452",
+            "date_last_used": "0",
+            "guid": "f05d4fee-caad-4dac-a41f-d4b9eb7d8f32",
+            "id": "14",
+            "name": "New tab",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "chrome-native://newtab/",
+            "visit_count": 0
+         } ],
+         "date_added": "13432798639912172",
+         "date_last_used": "0",
+         "date_modified": "13374378610477452",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile favorites",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "workspaces_v2": {
+         "children": [  ],
+         "date_added": "13432798639912172",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "75aa6670-344f-549d-b742-660f029506ab",
+         "id": "5",
+         "name": "Workspaces",
+         "source": "unknown",
+         "type": "folder"
+      }
+   },
+   "sync_metadata": "CjEKDgiIgQISCMlte2CgAQAAEgAqGG1HVllJWi8rbUxKM2lyR09nMnBIdmc9PUgDoAYMEq4BCA4SqQEKHFZHVUpLWnZSTVlnODNpakJvZzV0M2lzS25aZz0SJGYwNWQ0ZmVlLWNhYWQtNGRhYy1hNDFmLWQ0YjllYjdkOGYzMhgAIAAoADCA4pb0+DM4y/+W9PgzQMv/lvT4M0ocMC9lVERYamZZUzErbk4xOFdPRkxhbG5KWW5JPVoeIhw4MWtTTkJnZWdzbGNwZmFycjhTTW9ha3ZGZHc9ZQAAAABqAMI+AmAFEo4BCAMSiQEKHG5qZ0R1ODhlQ3J2WHA4NnBEN2ZIR2NxRnA4OD0SJDllNzEyNTVjLTFkY2QtNTNiZi05NDc4LThhM2E1M2YyYmUyYxgAIAAoADCNhYuH8TM4s5GLh/EzQLORi4fxM0oceXpOQjAxY241NEE3Y1JVMHVUKy9QZ21UdFVvPWUAAAAAagDCPgJgABKvAQgKEqoBChxtcXo3eVpBZ0c2ZVpHMnNSTnZoRnZSSlgxUDA9EiRjODFkN2M3Ny03MTM5LTQ4ZTktYWYwNS0xOTkzYjU4MTE5MzAYACAAKAAw++GW9PgzOJ37lvT4M0Cd+5b0+DNKHEJRSGFCZzdtYWFsalA1TExGL3NiWUZIWkc0Zz1aHyId7m1iU041NklmTnRhaWU3RkVWM1ZvV2J5VXdYTT1lFeGGimoAwj4CYAUSrwEIDRKqAQocZWhWWTIwcVFxeC9PalNaWEczRTV0amw1U3dVPRIkNGQ5YzE1ZTItMzM2Yi00YTY2LTgwZGMtMDIyNmUyZDliZWM0GAAgACgAMP/hlvT4Mzjg/pb0+DNA4P6W9PgzShw2YmxJM0hNcTNQWEJBWmxZTnZuNklqeWNsNjQ9Wh8iHf1HNXlvc2FwQXBTOGZPaFBpc1MwWUhaam1BSHc9ZXoSsM5qAMI+AmAFEq8BCAwSqgEKHG9RL3BhSEUrMHNleWJnNWNzcG1nSVlIc2NoND0SJDQ0YTJlNDg2LWEzNmEtNDYwZC1hMDJiLTYwMTllMzgwMDk1YRgAIAAoADD64Zb0+DM4k/qW9PgzQJP6lvT4M0ocOGtrT2J3ZXdOdWN1R2s4clBoYmtkN2RlKzRJPVofIh37VlNhR2ZzZE54dkxXd2Nva1pTSlVQdUdRa0NzPWU8gqWQagDCPgJgBRKvAQgLEqoBChxvaCs0Snpoalo2Y00xQk5oZGRIaTFrZ09sd3M9EiRkNmY5ZDE5ZS0xZDMzLTQ1YTgtODI1Mi04YWZjMGE3OTA4MWQYACAAKAAw/uGW9PgzOPX9lvT4M0D1/Zb0+DNKHEJkT0JxRVR1ejM1N2ZxdndhUnhjQkl2TFZuND1aHyId9292OEJKUzFOQzBHN2t5SDUyaDlEK3R6YjNyYz1lPIKlkGoAwj4CYAUSjgEIARKJAQoceXhKLzZmdmtlY3I3a3A1RVF6QjR0V0xwZGJFPRIkNWZlMTE0YzUtNDlmNi01MWQ5LTk1YTQtMTBjMjIwMDc2NTZmGAAgACgAMIaFi4fxMzjljYuH8TNA5Y2Lh/EzShxhUkNXTGdoRjliNUlucUtJRHZ1Si9qdlFrRmM9ZQAAAABqAMI+AmAAEq8BCAkSqgEKHDdLeUpia0oxMjE4TnNodjl4VFE3TG45dEtUbz0SJGNmMzA3NDVlLTNiZWItNGIxNS04ODQ4LWY5M2FlNWY0YzI4MBgAIAAoADD54Zb0+DM4kfmW9PgzQJH5lvT4M0oceThjcERwbVJ2bjhuV3NTZHVhb1NrNG5PZzZZPVofIh3dSWQ5MXQxV2t2NGF1RnpVYVNjbElJYWZtaE5FPWVNMySaagDCPgJgBRKOAQgFEokBChx3UkJyWkwrNlBBOWF2S2dqTlA3SlhETGNmdnM9EiRkMTEyZDc5Yy1hMDBlLTUzZTQtYWJjZC1lYjg1MjFjYmNlNWUYACAAKAAwjIWLh/EzOLCQi4fxM0CwkIuH8TNKHG5teDY1c1FEdnhJOFRnRWV2K0ErbnR0b1NuND1lAAAAAGoAwj4CYAASrwEICBKqAQocTWNYUitwZCtBRE1JbitzN3RhdStvb3lsNjJZPRIkZjgyOGUwNWMtZGY4OC00ZGNiLTk0Y2YtNTIwMzNiYWJiMzNlGAAgACgAMPzhlvT4MziV/Jb0+DNAlfyW9PgzShxCbU1JL2xCUWUvbVhibjNNUzZJbXZKSDcxcm89Wh8iHbtLeFFlTkI3VFBxelZGK1JlQ2NrcU1PNERvb2s9ZQNbsSVqAMI+AmAFEq4BCAcSqQEKHG1zeExiZFhkeEQrOUQ1VUJPbWJib3M2am00QT0SJDliNmFlODBhLTI2YjYtNGYzOC1hMDAwLWRjMTcwMDRiNzNmZBgAIAAoADD94Zb0+DM4h/2W9PgzQIf9lvT4M0ocMkdMWUpxMCsyMURab1pYTjBkK2F1N0ZPbjZzPVoeIhx3bnZ2RUg3TzRsQnZMdEtCbVNTYjZlMTBCSDQ9ZQAAAABqAMI+AmAFEo4BCAISiQEKHFljU1RvbnZFU1B3cUNzNEwyY3JWaHY2OEw5OD0SJGI1YjI2N2E3LTIxOGItNWRkMC1iY2VlLTY1ODFiMTNhNTNkORgAIAAoADCHhYuH8TM40Y6Lh/EzQNGOi4fxM0ocb1BWa2h3QlJiVjY1S0NXUjIrSU9OSFdvT3U4PWUAAAAAagDCPgJgADAAOAA=",
+   "version": 1
+}

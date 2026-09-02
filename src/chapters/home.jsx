@@ -8,7 +8,7 @@
 // ============================================================
 
 import { useEffect, useState } from 'react'
-import { collection, doc, getDoc, getDocs, limit, query } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore'
 import { db } from '../../firebase'
 import NewProject from './micro-chapter/newproject'
 import PassionProject from './micro-chapter/passionproject'
@@ -24,7 +24,19 @@ export default function Home({ user }) {
   // Load the list of projects from Firebase.
   const fetchProjects = async () => {
     try {
-      const q = query(collection(db, 'projects'), limit(10))
+      // Only show projects owned by the currently logged-in user.
+      // New projects are saved with a "uid" field (see newproject.jsx),
+      // so we match it against the authenticated user's uid here.
+      if (!user || !user.uid) {
+        setProjects([])
+        return
+      }
+
+      const q = query(
+        collection(db, 'projects'),
+        where('uid', '==', user.uid), // only this user's projects
+        limit(10)
+      )
       const snapshot = await getDocs(q)
       const list = snapshot.docs.map((doc) => ({
         id: doc.id,        // Firebase document ID
@@ -92,7 +104,7 @@ export default function Home({ user }) {
 
   // Show the New Project form if the user asked for it.
   if (showNewProject) {
-    return <NewProject onBack={handleBackFromNewProject} />
+    return <NewProject onBack={handleBackFromNewProject} user={user} />
   }
 
   // Show the project detail page if a project is open.
