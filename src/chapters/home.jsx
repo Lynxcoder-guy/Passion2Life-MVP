@@ -8,7 +8,7 @@
 // ============================================================
 
 import { useEffect, useState } from 'react'
-import { collection, getDocs, limit, query } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, limit, query } from 'firebase/firestore'
 import { db } from '../../firebase'
 import NewProject from './micro-chapter/newproject'
 import PassionProject from './micro-chapter/passionproject'
@@ -36,13 +36,27 @@ export default function Home({ user }) {
     }
   }
 
-  // Load a display name to greet the user.
+  // Load a display name to greet the user. We read THIS user's own document
+  // (userDevices/{uid}) instead of the first doc in the collection, so the
+  // greeting is always correct for the person who is logged in.
   const fetchUserDisplay = async () => {
     try {
-      const snapshot = await getDocs(collection(db, 'userDevices'))
-      if (!snapshot.empty) {
-        const userData = snapshot.docs[0].data()
-        setDisplayName(userData.displayName || 'Guest')
+      if (!user) {
+        const docref = doc(db, 'userDevices', 'guest')
+        const guestSnap = await getDoc(docref)
+        if (guestSnap.exists()) {
+          const guestData = guestSnap.data()
+          setDisplayName(guestData.displayName || 'Guest')
+        }
+        setDisplayName('Guest')
+        return
+      }
+      const userSnap = await getDoc(doc(db, 'userDevices', user.uid))
+      if (userSnap.exists()) {
+        const userData = userSnap.data()
+        setDisplayName(userData.displayName || user.displayName || 'Guest')
+      } else {
+        setDisplayName(user.displayName || 'Guest')
       }
     } catch (error) {
       console.error('Failed to load user display:', error)

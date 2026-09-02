@@ -4,22 +4,18 @@ import {
   createUserWithEmailAndPassword,
   setPersistence,
   signInWithEmailAndPassword,
+  updateProfile,
 } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../../firebase'
-import { getDeviceId } from '../../device'
 
 export default function Login({ onSuccess }) {
-  // These are the form inputs that let the user type email/password and optional name.
-  const [name, setName] = useState('')
+  const [name, setName] = useState('Guest')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const [isLogin, setIsLogin] = useState(true)
 
-  // This function runs when the user presses Login or Sign Up.
-  // It validates the form, signs the user in with Firebase,
-  // saves the device info, and then tells the parent app that login succeeded.
   const handleSubmit = async (event) => {
     event.preventDefault()
 
@@ -34,56 +30,47 @@ export default function Login({ onSuccess }) {
     }
 
     try {
-      // This tells Firebase to keep the login session saved in the browser.
-      // That is what allows auto-login after refresh or reopening the app.
       await setPersistence(auth, browserLocalPersistence)
 
       let result
-
       if (isLogin) {
-        // Sign in with the user-provided email and password.
         result = await signInWithEmailAndPassword(auth, email, password)
         setMessage(`Logged in successfully: ${result.user.email}`)
       } else {
-        // Create a new Firebase account for the user.
         result = await createUserWithEmailAndPassword(auth, email, password)
+        if (name.trim()) {
+          await updateProfile(result.user, { displayName: name.trim() })
+        }
         setMessage(`Account created: ${result.user.email}`)
       }
 
-      // Create or reuse a stable device ID for this browser.
-      const deviceId = getDeviceId()
+      // Generate a stable deviceId per browser (no external import needed)
+      const deviceId =
+        localStorage.getItem('deviceId') || crypto.randomUUID()
+      localStorage.setItem('deviceId', deviceId)
 
-      // Save the device ID in Firestore so we know which device belongs to this user.
-      // NOTE: These writes are best-effort. If they fail (e.g. security rules
-      // don't allow them yet), login should still succeed so the user can
-      // reach the app. Without this, a rules problem here would block login.
+      const displayName = (isLogin ? result.user.displayName : '') || name.trim()
+
       try {
         await setDoc(doc(db, 'devices', deviceId), {
           uid: result.user.uid,
           email: result.user.email,
+          displayName: name,
           deviceId,
-          lastLoginAt: new Date(),
-        })
-
-        // Also store a user-to-device link for easier lookup later.
-        await setDoc(doc(db, 'userDevices', result.user.uid), {
-          deviceId,
-          email: result.user.email,
           lastLoginAt: new Date(),
         })
       } catch (deviceError) {
         console.warn('Could not save device info (non-blocking):', deviceError)
       }
 
-      // Let the parent app know the user is now logged in.
       if (onSuccess) {
         onSuccess({
           ...result.user,
-          displayName: isLogin ? result.user.displayName || name || 'User' : name.trim(),
+          displayName: name || 'User',
         })
       }
     } catch (error) {
-      setMessage(error.message)
+      setMessage(String(error.message))
     }
   }
 
@@ -134,9 +121,6 @@ export default function Login({ onSuccess }) {
           </button>
         </form>
 
-        {/* This shows errors and success messages. Without this, login
-            failures (wrong password, provider not enabled, network problems)
-            are invisible — it looks like the button does nothing. */}
         {message && <p className="login-message" role="status">{message}</p>}
 
         <button
