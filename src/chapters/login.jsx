@@ -51,18 +51,6 @@ export default function Login({ onSuccess }) {
 
       const displayName = (isLogin ? result.user.displayName : '') || name.trim()
 
-      try {
-        await setDoc(doc(db, 'devices', deviceId), {
-          uid: result.user.uid,
-          email: result.user.email,
-          displayName: name,
-          deviceId,
-          lastLoginAt: new Date(),
-        })
-      } catch (deviceError) {
-        console.warn('Could not save device info (non-blocking):', deviceError)
-      }
-
       if (onSuccess) {
         onSuccess({
           ...result.user,

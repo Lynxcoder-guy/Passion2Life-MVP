@@ -55,9 +55,48 @@
   --color-white: #ffffff;
 }
 
+/* =============================================================
+   USERS PROFILE — rendered by <Users /> inside home.jsx
+   (src/chapters/social-chapter/users.jsx -> .users-container)
+   ============================================================= */
+.users-container {
+  margin-top: 28px;
+  padding: 24px 28px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-default);
+  border-radius: 16px;
+  box-shadow: 0 2px 10px var(--color-shadow);
+}
+
+.users-container h1 {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.users-container p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* Mobile: tighter padding so the profile card fits small screens */
+@media (max-width: 640px) {
+  .users-container {
+    padding: 18px 16px;
+    border-radius: 12px;
+  }
+
+  .users-container h1 {
+    font-size: 1.15rem;
+  }
+}
 /* =============================
    Style untuk global reset
    ============================= */
+
 * {
   box-sizing: border-box;
 }
@@ -98,13 +137,64 @@ button {
   margin: 0 auto;
 }
 
-.home-hero {
+.home-header{
   background: var(--color-surface-soft);
   border: 1px solid var(--color-border-soft);
   border-radius: 28px;
   padding: 32px 28px;
   box-shadow: 0 18px 40px var(--color-shadow);
   margin-bottom: 28px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.home-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Universal points badge shown on the dashboard */
+.home-scores {
+  margin-left: auto;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: 20px;
+  padding: 14px 22px;
+  box-shadow: 0 14px 30px var(--color-glow);
+  color: var(--color-text-contrast);
+}
+
+.home-scores-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+}
+
+.home-scores-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.home-scores-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+}
+
+.home-scores-value {
+  font-size: 1.6rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .home-tag,
@@ -263,6 +353,86 @@ button {
   color: var(--color-text-muted);
   line-height: 1.6;
 }
+
+/* =============================================================
+   MEET USERS section (home.jsx)
+   - .meet-users wraps the section card
+   - the first <div> is the heading block
+   - .user-card entries show other users' display names
+   ============================================================= */
+.meet-users {
+  background: var(--color-surface-soft-2);
+  border: 1px solid var(--color-border-soft-2);
+  border-radius: 24px;
+  padding: 24px;
+  margin-top: 28px;
+  box-shadow: 0 16px 30px var(--color-shadow-strong);
+}
+
+.meet-users > div:first-child h2 {
+  margin: 0 0 6px;
+  font-size: 1.5rem;
+  color: var(--color-text-dark);
+}
+
+.meet-users > div:first-child p {
+  margin: 0 0 18px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.meet-users > div:nth-child(2) {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.user-card {
+  background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-card) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 20px var(--color-shadow-dark);
+}
+
+.user-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px var(--color-shadow-stronger);
+}
+
+.user-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--color-text-strong);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mobile: cards stack into two columns, then one */
+@media (max-width: 900px) {
+  .meet-users > div:nth-child(2) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .meet-users {
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+
+  .meet-users > div:nth-child(2) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =============================
+   Style untuk form project
+   ============================= */
 
 /* =============================
    Style untuk form project
@@ -1423,6 +1593,17 @@ button {
   .buttons-container {
     width: 100%;
     justify-content: flex-start;
+  }
+
+  .home-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .home-scores {
+    margin-left: 0;
+    align-self: stretch;
+    justify-content: center;
   }
 }
 

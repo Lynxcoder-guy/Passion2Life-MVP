@@ -16,13 +16,13 @@
 // ============================================================
 
 import { useEffect, useState } from 'react'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, updateDoc, setDoc, addDoc } from 'firebase/firestore'
 import { db } from '../../../firebase'
 
 // ------------------------------------------------------------
 // SCORING CONSTANTS - the "rules of the game"
 // ------------------------------------------------------------
-const POINTS_PER_TASK = 10  // Base XP for completing one task
+const POINTS_PER_TASK = 15  // Base XP for completing one task
 const BONUS_STREAK = 5      // EXTRA XP per day in your streak
 const UNDO_POINTS = 15      // Points removed by "Undo Scores"
 const MIN_SCORE = 0         // Lowest allowed score (cannot go below 0)
@@ -75,7 +75,7 @@ const getStreak = (completedDates) => {
 // ------------------------------------------------------------
 // Receives "tasks" (current tasks) and "projectId" (the Firebase
 // document id used to read and save the persistent score).
-export default function Scoring({ tasks = [], projectId }) {
+export default function Scoring({ tasks = [], projectId, onPointsEarned }) {
   // STATE
   const [now, setNow] = useState(() => Date.now())          // current time (for due/overdue)
   const [undoMessage, setUndoMessage] = useState('')        // confirmation after undo
@@ -90,6 +90,8 @@ export default function Scoring({ tasks = [], projectId }) {
     completedDates: [], // list of "YYYY-MM-DD" completion dates
     trackedTaskIds: [], // ids of tasks already counted
   })
+
+  const [universalPoints] = useState(1) // kept for display compat; real sync lives in home.jsx
 
   // isLoaded = true once we have loaded the score from Firebase.
   const [isLoaded, setIsLoaded] = useState(false)
@@ -192,13 +194,18 @@ export default function Scoring({ tasks = [], projectId }) {
     // Update local state right away.
     setScoreState(updatedScore)
 
-    // Save to Firebase so the score persists forever.
+    // Persist the score to the project doc (survives refresh/delete).
     updateDoc(doc(db, 'projects', projectId), { score: updatedScore }).catch((error) => {
       console.error('Failed to save score:', error)
     })
-    // scoreState is in the list on purpose (prevents double counting).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tasks, projectId, isLoaded, scoreState])
+
+    // Push the newly earned points UP to the dashboard, which adds
+    // them to the user's devices/{uid}.points in Firebase.
+    const earned = newlyCompleted.length * POINTS_PER_TASK
+    if (onPointsEarned) onPointsEarned(earned)
+  })
+
+ 
 
   // ------------------------------------------------------------
   // UNDO SCORES: remove 15 points (down to 0) and save.
@@ -283,10 +290,14 @@ export default function Scoring({ tasks = [], projectId }) {
     const due = new Date(year, month - 1, day)
     return due >= todayStart
   }).length
-
+  
   // ------------------------------------------------------------
   // RENDER THE SCORING UI
   // ------------------------------------------------------------
+  // NOTE: universal (cross-project) points are handled by home.jsx.
+  // Never call setState directly in the render body (e.g.
+  // setUniversalPoints(...) here) — it causes an infinite
+  // re-render loop that crashes the component.
   return (
     <div className="scoring-panel">
       {/* HEADER: title and total score badge */}
@@ -371,4 +382,4 @@ export default function Scoring({ tasks = [], projectId }) {
       </div>
     </div>
   )
-}
+  }

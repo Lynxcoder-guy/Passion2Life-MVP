@@ -57,7 +57,7 @@ const getCountdownLabel = (task, now) => {
 }
 
 // PassionProject receives the selected project plus two functions.
-export default function PassionProject({ project, onBack, onProjectUpdate }) {
+export default function PassionProject({ project, onBack, onProjectUpdate, onPointsEarned }) {
   // State the page needs to remember:
   const [showTaskForm, setShowTaskForm] = useState(false)       // Show the add-task form?
   const [showDeleteModal, setShowDeleteModal] = useState(false) // Show delete confirmation?
@@ -250,7 +250,7 @@ export default function PassionProject({ project, onBack, onProjectUpdate }) {
 
         {/* SCORING & CALENDAR - we pass the tasks to both components. */}
         <section className="metrics-grid">
-          <Scoring tasks={tasks} projectId={localProject.id} />
+          <Scoring tasks={tasks} projectId={localProject.id} onPointsEarned={onPointsEarned} />
           <Calendar tasks={tasks} />
         </section>
 
